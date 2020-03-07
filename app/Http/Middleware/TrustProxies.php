@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 
 class TrustProxies extends Middleware
 {
+    //https://laravel.com/docs/7.x/requests#configuring-trusted-proxies
     /**
      * The trusted proxies for this application.
      *
      * @var array|string
      */
-    protected $proxies;
+    protected $proxies = '*';
 
     /**
      * The headers that should be used to detect proxies.
