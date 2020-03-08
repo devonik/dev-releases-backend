@@ -10,14 +10,15 @@
     "require": {
         "php": "^7.2.5",
         "ext-gd": "*",
+        "ext-json": "*",
         "backpack/crud": "4.0.*",
         "barryvdh/laravel-elfinder": "^0.4.5",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
+        "kreait/firebase-php": "4.35",
         "laravel/framework": "^7.0",
-        "laravel/tinker": "^2.0",
-      "ext-json": "*"
+        "laravel/tinker": "^2.0"
     },
     "require-dev": {
         "backpack/generators": "^2.0",
