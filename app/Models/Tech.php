@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Kreait\Firebase\Factory;
-use Kreait\Laravel\Firebase\Facades\FirebaseStorage;
 
 class Tech extends Model
 {
@@ -84,20 +83,14 @@ class Tech extends Model
             switch (env('FILESYSTEM_DRIVER')):
                 case 'firebase.storage':
                     $uploadOptions = [
-                        'name' => $this->title.".png",
+                        'name' => "test.png",
                         'predefinedAcl' => 'publicRead'
                     ];
 
                     $storage = (new Factory())
-                        ->withHttpClientConfig([
-                            'debug' => true
-                        ])
                         ->createStorage();
 
-                    $uploadedFile = $storage->getBucket()->upload(fopen("F:\\develop\\dev-releases-backend\\public\\uploads\\tech\\fe4e2c0c7b9207d78f95d28e445e2dbc.png", 'rb'), $uploadOptions);
-
-                    //$uploadedFile = $storage->getBucket()->upload($value, $uploadOptions);
-                    dd($uploadedFile);
+                    $uploadedFile = $storage->getBucket()->upload($image, $uploadOptions);
                     $this->attributes[$attribute_name] = $uploadedFile->info()['mediaLink'];
                     break;
                 default:
