@@ -89,7 +89,6 @@ class Tech extends Model
 
                     $storage = (new Factory())
                         ->createStorage();
-
                     $uploadedFile = $storage->getBucket()->upload($image, $uploadOptions);
                     $this->attributes[$attribute_name] = $uploadedFile->info()['mediaLink'];
                     break;
