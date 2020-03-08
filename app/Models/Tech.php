@@ -83,7 +83,7 @@ class Tech extends Model
             switch (env('FILESYSTEM_DRIVER')):
                 case 'firebase.storage':
                     $uploadOptions = [
-                        'name' => "test.png",
+                        'name' => $this->title.".png",
                         'predefinedAcl' => 'publicRead'
                     ];
 
