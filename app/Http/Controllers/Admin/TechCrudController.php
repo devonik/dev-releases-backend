@@ -38,8 +38,6 @@ class TechCrudController extends CrudController
         ];
         $this->crud->addColumn(['name' => 'id', 'type' => 'text', 'label' => 'Id']);
         $this->crud->addColumn(['name' => 'github_release_id', 'type' => 'text', 'label' => 'Github release id']);
-        $this->crud->addColumn(['name' => 'github_link', 'type' => 'text', 'label' => 'Github link']);
-        $this->crud->addColumn(['name' => 'release_published_at', 'type' => 'text', 'label' => 'Release published at']);
         $this->crud->addColumn(['name' => 'latest_tag', 'type' => 'text', 'label' => 'Latest tag']);
         $this->crud->addColumn(['name' => 'title', 'type' => 'text', 'label' => 'Title']);
         $this->crud->addColumn($hero_image_column_definition);
