@@ -2,8 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b8a38959-8156-4ad6-a5bc-76132fa952cf" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/config/firebase.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dev-releases-backend.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dev-releases-backend.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/TrustProxies.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/TrustProxies.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Models/Tech.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/Tech.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/backpack/base.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/backpack/base.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/filesystems.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/filesystems.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,6 +141,24 @@
       <path value="$PROJECT_DIR$/vendor/psr/cache" />
       <path value="$PROJECT_DIR$/vendor/league/flysystem-cached-adapter" />
       <path value="$PROJECT_DIR$/vendor/studio-42/elfinder" />
+      <path value="$PROJECT_DIR$/vendor/lcobucci/jwt" />
+      <path value="$PROJECT_DIR$/vendor/mtdowling/jmespath.php" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/google/crc32" />
+      <path value="$PROJECT_DIR$/vendor/google/cloud-storage" />
+      <path value="$PROJECT_DIR$/vendor/google/cloud-core" />
+      <path value="$PROJECT_DIR$/vendor/google/auth" />
+      <path value="$PROJECT_DIR$/vendor/superbalist/flysystem-google-storage" />
+      <path value="$PROJECT_DIR$/vendor/kreait/gcp-metadata" />
+      <path value="$PROJECT_DIR$/vendor/kreait/firebase-tokens" />
+      <path value="$PROJECT_DIR$/vendor/kreait/laravel-firebase" />
+      <path value="$PROJECT_DIR$/vendor/kreait/firebase-php" />
+      <path value="$PROJECT_DIR$/vendor/kreait/clock" />
+      <path value="$PROJECT_DIR$/vendor/giggsey/locale" />
+      <path value="$PROJECT_DIR$/vendor/giggsey/libphonenumber-for-php" />
+      <path value="$PROJECT_DIR$/vendor/rize/uri-template" />
+      <path value="$PROJECT_DIR$/vendor/fig/http-message-util" />
+      <path value="$PROJECT_DIR$/vendor/riverline/multipart-parser" />
     </include_path>
   </component>
   <component name="ProjectId" id="1YngfQN5Od3sVUqNOaUC9eZCxSv" />
@@ -145,11 +173,12 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/storage/assets" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\develop\dev-releases-backend\storage\assets" />
       <recent name="F:\develop\dev-releases-backend" />
     </key>
   </component>
@@ -182,7 +211,9 @@
       <option name="presentableId" value="Default" />
       <updated>1583583874568</updated>
       <workItem from="1583583876044" duration="7914000" />
-      <workItem from="1583610371618" duration="1785000" />
+      <workItem from="1583610371618" duration="2137000" />
+      <workItem from="1583616782581" duration="95000" />
+      <workItem from="1583667258230" duration="12912000" />
     </task>
     <servers />
   </component>
@@ -194,6 +225,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="706" y="324" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1583589639550" />
+    <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1583672781560">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1583672781560" />
     <state x="690" y="276" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1583589393967">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -218,13 +253,13 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="703" y="335" key="NewPhpClassDialog/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1583611944841" />
-    <state x="656" y="252" width="607" height="536" key="find.popup" timestamp="1583610680806">
+    <state x="656" y="252" width="607" height="536" key="find.popup" timestamp="1583671183377">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="656" y="252" width="607" height="536" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1583610680806" />
-    <state x="616" y="240" key="run.anything.popup" timestamp="1583584674626">
+    <state x="656" y="252" width="607" height="536" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1583671183377" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1583672122330">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1583584674626" />
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1583672122330" />
   </component>
 </project>

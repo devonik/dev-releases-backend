@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Kreait\Firebase\Factory;
+use Kreait\Laravel\Firebase\Facades\FirebaseStorage;
 
 class Tech extends Model
 {
@@ -79,13 +81,37 @@ class Tech extends Model
             $image = Image::make($value)->encode('png', 90);
             // 1. Generate a filename.
             $filename = md5($value.time()).'.png';
-            // 2. Store the image on disk.
-            Storage::disk($disk)->put($destination_path.'/'.$filename, $image->stream());
-            // 3. Save the public path to the database
-            // but first, remove "public/" from the path, since we're pointing to it from the root folder
-            // that way, what gets saved in the database is the user-accesible URL
-            $public_destination_path = Str::replaceFirst('public', url('/'), $destination_path);
-            $this->attributes[$attribute_name] = $public_destination_path.'/'.$filename;
+            switch (env('FILESYSTEM_DRIVER')):
+                case 'firebase.storage':
+                    $uploadOptions = [
+                        'name' => $this->title.".png",
+                        'predefinedAcl' => 'publicRead'
+                    ];
+
+                    $storage = (new Factory())
+                        ->withHttpClientConfig([
+                            'debug' => true
+                        ])
+                        ->createStorage();
+
+                    $uploadedFile = $storage->getBucket()->upload(fopen("F:\\develop\\dev-releases-backend\\public\\uploads\\tech\\fe4e2c0c7b9207d78f95d28e445e2dbc.png", 'rb'), $uploadOptions);
+
+                    //$uploadedFile = $storage->getBucket()->upload($value, $uploadOptions);
+                    dd($uploadedFile);
+                    $this->attributes[$attribute_name] = $uploadedFile->info()['mediaLink'];
+                    break;
+                default:
+                    //If we the backpack filesystem is set on local (not in firebase)
+                    // 2. Store the image on disk.
+                    Storage::disk($disk)->put($destination_path.'/'.$filename, $image->stream());
+                    // 3. Save the public path to the database
+                    // but first, remove "public/" from the path, since we're pointing to it from the root folder
+                    // that way, what gets saved in the database is the user-accesible URL
+                    $public_destination_path = Str::replaceFirst('public', url('/'), $destination_path);
+
+                    $this->attributes[$attribute_name] = $public_destination_path.'/'.$filename;
+                    break;
+            endswitch;
         }
     }
 }
