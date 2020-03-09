@@ -6,7 +6,9 @@ namespace App\Console;
 
 use App\Models\Tech;
 use Carbon\Carbon;
+use http\Message\Body;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Firebase\Exception\MessagingException;
 use Kreait\Firebase\Factory;
@@ -36,9 +38,12 @@ class CheckReleases
                     );
 
                     //Lets send firebase push notifications
-
+                    $title = 'New github release';
+                    $body = $tech->title.' released to '.$tech->latest_tag;
+                    $notification = ['title' => $title, 'body' => $body];
                     $firebaseMessage = CloudMessage::withTarget('topic', 'new-tech-release')
-                        ->withNotification($tech->toArray());
+                        ->withNotification($notification)
+                        ->withData($tech->toArray());
 
                     try {
                         $firebaseMessaging->send($firebaseMessage);
