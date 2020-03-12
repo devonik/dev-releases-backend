@@ -21,3 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('tech')->name('tech/')->group(static function() {
     Route::get('/getAll', 'Api\TechController@getAll');
 });
+
+Route::prefix('test')->name('test/')->group(static function() {
+    Route::get('/testFirebaseMessage', 'Api\TestController@testFirebaseMessage');
+});
+
