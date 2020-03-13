@@ -38,12 +38,20 @@ class CheckReleases
                     );
 
                     //Lets send firebase push notifications
+                    $topic = 'new-tech-release';
                     $title = 'New github release';
                     $body = $tech->title.' released to '.$tech->latest_tag;
                     $notification = ['title' => $title, 'body' => $body];
-                    $firebaseMessage = CloudMessage::withTarget('topic', 'new-tech-release')
+
+                    $notificationData = $tech->toArray();
+                    //Needed so we can read the send message if the app is in background
+                    $notificationData['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
+                    //Needed because the notification itself is not attatched on background message
+                    $notificationData['message_identifier'] = $topic;
+
+                    $firebaseMessage = CloudMessage::withTarget('topic', $topic)
                         ->withNotification($notification)
-                        ->withData($tech->toArray());
+                        ->withData($notificationData);
 
                     try {
                         $firebaseMessaging->send($firebaseMessage);
