@@ -23,6 +23,7 @@ class CheckReleases
 
         if($checkableTechs->count() > 0){
             $firebaseMessaging = (new Factory())->createMessaging();
+            $firebaseMessages = array();
             foreach ($checkableTechs as $tech){
                 $response = Http::get("https://api.github.com/repos/$tech->github_owner/$tech->github_repo/releases/latest");
                 if($response->json()['tag_name'] != $tech->latest_tag){
@@ -49,18 +50,23 @@ class CheckReleases
                     //Needed because the notification itself is not attatched on background message
                     $notificationData['message_identifier'] = $topic;
 
-                    $firebaseMessage = CloudMessage::withTarget('topic', $topic)
-                        ->withNotification($notification)
-                        ->withData($notificationData);
+                    array_push(
+                        $firebaseMessages,
+                        CloudMessage::withTarget('topic', $topic)
+                            ->withNotification($notification)
+                            ->withData($notificationData)
+                    );
 
-                    try {
-                        $firebaseMessaging->send($firebaseMessage);
-                        print_r("firebase message successfully sent !!!");
-                    } catch (MessagingException $e) {
-                        error_log($e);
-                    } catch (FirebaseException $e) {
-                        error_log($e);
-                    }
+                }
+            }
+            if(count($firebaseMessages) > 0){
+                try {
+                    $firebaseMessaging->sendAll($firebaseMessages);
+                    print_r("[".count($firebaseMessages)."] firebase messages successfully sent !!!");
+                } catch (MessagingException $e) {
+                    error_log($e);
+                } catch (FirebaseException $e) {
+                    error_log($e);
                 }
             }
         }
