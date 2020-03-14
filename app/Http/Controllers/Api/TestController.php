@@ -18,7 +18,7 @@ class TestController
 
             $firebaseMessaging = (new Factory())->createMessaging();
             $tech = $tech[0];
-
+            $tech->latest_tag = "dd";
             //Lets send firebase push notifications
             $topic = 'new-tech-release';
             $title = 'New github release';
