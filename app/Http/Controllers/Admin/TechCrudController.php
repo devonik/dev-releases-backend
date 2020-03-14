@@ -73,7 +73,7 @@ class TechCrudController extends CrudController
         $tech = Tech::query()->where("id", $id)->first();
         if($tech){
             $response = Http::get("https://api.github.com/repos/$tech->github_owner/$tech->github_repo/releases/latest");
-
+            //TODO some repos doesn't have releases (Example flutter https://github.com/flutter/flutter/releases) so we have to grab tags and take latest
             Tech::query()
                 ->where("id", $id)
                 ->update(
