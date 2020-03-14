@@ -13,6 +13,7 @@ use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Firebase\Exception\MessagingException;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 
 class CheckReleases
 {
@@ -42,7 +43,12 @@ class CheckReleases
                     $topic = 'new-tech-release';
                     $title = 'New github release';
                     $body = $tech->title.' released to '.$tech->latest_tag;
-                    $notification = ['title' => $title, 'body' => $body];
+
+                    $notification = Notification::fromArray([
+                        'title' => $title,
+                        'body' => $body,
+                        'image' => $tech->hero_image,
+                    ]);
 
                     $notificationData = $tech->toArray();
                     //Needed so we can read the send message if the app is in background
