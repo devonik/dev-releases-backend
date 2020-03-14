@@ -14,9 +14,9 @@ class AddColumnsTechsTable extends Migration
     public function up()
     {
         Schema::table('techs', function (Blueprint $table) {
-            $table->string('github_link');
-            $table->string('release_published_at');
-            $table->longText('body');
+            $table->string('github_link')->nullable();
+            $table->string('release_published_at')->nullable();
+            $table->longText('body')->nullable();
         });
     }
 
