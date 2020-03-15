@@ -5,6 +5,7 @@ namespace App\Console;
 
 
 use App\Models\Tech;
+use App\Repositories\TechRepository;
 use Carbon\Carbon;
 use http\Message\Body;
 use Illuminate\Support\Facades\Http;
@@ -17,32 +18,31 @@ use Kreait\Firebase\Messaging\Notification;
 
 class CheckReleases
 {
+    /**
+     * The tech repository implementation.
+     *
+     * @var TechRepository
+     */
+    protected $techRepository;
+
     public function __invoke()
     {
+        $this->techRepository = new TechRepository();
 
         $checkableTechs = Tech::query()->whereDate('created_at', '<', Carbon::today())->get();
 
-        if($checkableTechs->count() > 0){
+        if ($checkableTechs->count() > 0) {
             $firebaseMessaging = (new Factory())->createMessaging();
             $firebaseMessages = array();
-            foreach ($checkableTechs as $tech){
-                $response = Http::get("https://api.github.com/repos/$tech->github_owner/$tech->github_repo/releases/latest");
-                if($response->json()['tag_name'] != $tech->latest_tag){
-                    //If the tag is new lets update our database entry
-                    $tech->update(
-                        [
-                            "latest_tag" => $response->json()['tag_name'],
-                            "github_release_id" =>  $response->json()['id'],
-                            "github_link" => $response->json()['html_url'],
-                            "release_published_at" => $response->json()['published_at'],
-                            "body" => $response->json()['body']
-                        ]
-                    );
-
+            foreach ($checkableTechs as $tech) {
+                $updateTechResponse = $this->techRepository->updateTechWithGithubApiRequest($tech);
+                //updateTechResponse is false when there was an error or the tag is not new so we dont need a push notification
+                if ($updateTechResponse) {
+                    //Only send push notification if the response is there (not false)
                     //Lets send firebase push notifications
                     $topic = 'new-tech-release';
                     $title = 'New github release';
-                    $body = $tech->title.' released to '.$tech->latest_tag;
+                    $body = $tech->title . ' released to ' . $tech->latest_tag;
 
                     $notification = Notification::fromArray([
                         'title' => $title,
@@ -64,11 +64,14 @@ class CheckReleases
                     );
 
                 }
+
             }
-            if(count($firebaseMessages) > 0){
+
+            if (count($firebaseMessages) > 0) {
+                //Only send notifications if there are new tags
                 try {
                     $firebaseMessaging->sendAll($firebaseMessages);
-                    print_r("[".count($firebaseMessages)."] firebase messages successfully sent !!!");
+                    print_r("[" . count($firebaseMessages) . "] firebase messages successfully sent !!!");
                 } catch (MessagingException $e) {
                     error_log($e);
                 } catch (FirebaseException $e) {
@@ -77,4 +80,5 @@ class CheckReleases
             }
         }
     }
+
 }
