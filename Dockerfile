@@ -1,17 +1,12 @@
-FROM dragoono/laravel-craftable:1.3
+FROM dragoono/laravel-craftable:1.4
 
 WORKDIR /app
 COPY . /app
 
-#Configure Env file with github secrets
-RUN chmod +x ./setup_env.sh && ./setup_env.sh
-
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN composer install
-
-RUN apt-get update && apt-get -y install cron
+RUN composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
 
 # Copy hello-cron file to the cron.d directory
 COPY docker-cron /etc/cron.d/docker-cron
