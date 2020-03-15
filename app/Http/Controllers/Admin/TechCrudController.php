@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\TechRequest;
 use App\Models\Tech;
+use App\Repositories\TechRepository;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -21,12 +23,21 @@ class TechCrudController extends CrudController
     use \Backpack\CRUD\app\Http\Controllers\Operations\DeleteOperation;
     use \Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 
+    /**
+     * The tech repository implementation.
+     *
+     * @var TechRepository
+     */
+    protected $techRepository;
+
     public function setup()
     {
         $this->crud->setModel('App\Models\Tech');
         $this->crud->setRoute(config('backpack.base.route_prefix') . '/tech');
         $this->crud->setEntityNameStrings('tech', 'techs');
         $this->crud->addButtonFromView('line', 'getLatestRelease', 'tech_latest_release', 'end');
+
+        $this->techRepository = new TechRepository();
     }
 
     protected function setupListOperation()
@@ -72,19 +83,7 @@ class TechCrudController extends CrudController
     public function getLatestRelease($id){
         $tech = Tech::query()->where("id", $id)->first();
         if($tech){
-            $response = Http::get("https://api.github.com/repos/$tech->github_owner/$tech->github_repo/releases/latest");
-            //TODO some repos doesn't have releases (Example flutter https://github.com/flutter/flutter/releases) so we have to grab tags and take latest
-            Tech::query()
-                ->where("id", $id)
-                ->update(
-                    [
-                        "latest_tag" => $response->json()['tag_name'],
-                        "github_release_id" =>  $response->json()['id'],
-                        "github_link" => $response->json()['html_url'],
-                        "release_published_at" => $response->json()['published_at'],
-                        "body" => $response->json()['body']
-                    ]
-                );
+            $this->techRepository->updateTechWithGithubApiRequest($tech);
         }
 
 
