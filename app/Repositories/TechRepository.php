@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Http;
 class TechRepository
 {
     public function updateTechWithGithubApiRequest(Model $tech){
-        $response = false;
 
         $latestRelease = Http::get("https://api.github.com/repos/$tech->github_owner/$tech->github_repo/releases/latest");
         //TODO some repos doesn't have releases (Example flutter https://github.com/flutter/flutter/releases) so we have to grab tags and take latest
@@ -21,9 +20,7 @@ class TechRepository
             //If the Https Status is 200 (ok)
             if($latestRelease->json()['tag_name'] != $tech->latest_tag){
                 //If the tag is new lets update the database entry
-                $response = Tech::query()
-                    ->where("id", $tech->id)
-                    ->update(
+                $tech->update(
                         [
                             "latest_tag" => $latestRelease->json()['tag_name'],
                             "github_release_id" =>  $latestRelease->json()['id'],
@@ -32,6 +29,7 @@ class TechRepository
                             "body" => $latestRelease->json()['body']
                         ]
                     );
+                return $tech;
             }
 
         }else{
@@ -57,9 +55,7 @@ class TechRepository
                         $body = $responseCommit->json()['commit']['message'];
                     }
                     //If the Https Status is 200 (ok) lets update our database
-                    $response = Tech::query()
-                        ->where("id", $tech->id)
-                        ->update(
+                    $tech->update(
                             [
                                 "latest_tag" => $latestTagObject['name'],
                                 "github_link" => $githubLink,
@@ -67,11 +63,14 @@ class TechRepository
                                 "body" => $body
                             ]
                         );
+
+                    return $tech;
                 }
 
             }
 
         }
-        return $response;
+
+        return false;
     }
 }

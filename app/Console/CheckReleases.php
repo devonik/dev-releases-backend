@@ -8,6 +8,7 @@ use App\Models\Tech;
 use App\Repositories\TechRepository;
 use Carbon\Carbon;
 use http\Message\Body;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Kreait\Firebase\Exception\FirebaseException;
@@ -42,7 +43,7 @@ class CheckReleases
                     //Lets send firebase push notifications
                     $topic = 'new-tech-release';
                     $title = 'New github release';
-                    $body = $tech->title . ' released to ' . $tech->latest_tag;
+                    $body = $updateTechResponse->title . ' released to ' . $updateTechResponse->latest_tag;
 
                     $notification = Notification::fromArray([
                         'title' => $title,
@@ -50,7 +51,7 @@ class CheckReleases
                         'image' => $tech->hero_image,
                     ]);
 
-                    $notificationData = $tech->toArray();
+                    $notificationData = $updateTechResponse->toArray();
                     //Needed so we can read the send message if the app is in background
                     $notificationData['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
                     //Needed because the notification itself is not attatched on background message
