@@ -40,7 +40,9 @@ jobs:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
           DB_CONNECTION: ${{ secrets.DB_CONNECTION }}
           DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          DB_HOST: ${{ secrets.$B_HOST }}
+          DB_HOST: ${{ secrets.DB_HOST }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
           DB_PORT: ${{ secrets.DB_PORT }}
           DB_USERNAME: ${{ secrets.DB_USERNAME }}
+
+
