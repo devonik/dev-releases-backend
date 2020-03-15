@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 {
   echo "APP_NAME='${ secrets.GITHUB_TOKEN }'"
