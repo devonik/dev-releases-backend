@@ -1,6 +1,6 @@
 FROM dragoono/laravel-craftable:1.2
 
-RUN ls -la
+RUN pwd && ls -la
 
 #Configure Env file with github secrets
 RUN chmod +x setup_env.sh && ./setup_env.sh
