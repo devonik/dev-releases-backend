@@ -28,4 +28,4 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Init env file
-        run: chmod +x ./setup_env.sh && ./setup_env.sh && ls -la && echo .env
+        run: chmod +x ./setup_env.sh && ./setup_env.sh && ls -la && cat .env
