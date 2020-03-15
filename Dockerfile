@@ -1,12 +1,13 @@
 FROM dragoono/laravel-craftable:1.2
 
-RUN pwd && ls -la /
-
-#Configure Env file with github secrets
-RUN chmod +x setup_env.sh && ./setup_env.sh
-
 WORKDIR /app
 COPY . /app
+
+RUN pwd && ls -la
+
+#Configure Env file with github secrets
+RUN chmod +x ./setup_env.sh && ./setup_env.sh
+
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
