@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 
 {
-  echo "APP_NAME='"$(secrets.APP_NAME)'"
+  echo "APP_NAME='$(secrets.APP_NAME)'"
   echo "APP_ENV='${ secrets.$APP_ENV }'"
   echo "APP_KEY='${ secrets.APP_KEY }'"
   echo "APP_URL='${ secrets.APP_URL }'"
