@@ -27,6 +27,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Init env file
+        run: chmod +x ./setup_env.sh && ./setup_env.sh
+        
       - name: Build image
         run: docker build . --file Dockerfile --tag image
 
