@@ -8,6 +8,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
 
+COPY docker-php-config.ini /usr/local/etc/php/conf.d/docker-php-config.ini
+
+RUN chmod 0644 /usr/local/etc/php/conf.d/docker-php-config.ini
+
 # Copy hello-cron file to the cron.d directory
 COPY docker-cron /etc/cron.d/docker-cron
 
