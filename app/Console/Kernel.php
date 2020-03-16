@@ -24,8 +24,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //$schedule->call(new CheckReleases)->dailyAt('10:00');
-        $schedule->call(new CheckReleases)->everyMinute();
+        $schedule->call(new CheckReleases)->dailyAt('10:00');
     }
 
     /**

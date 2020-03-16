@@ -24,5 +24,6 @@ Route::prefix('tech')->name('tech/')->group(static function() {
 
 Route::prefix('test')->name('test/')->group(static function() {
     Route::get('/testFirebaseMessage', 'Api\TestController@testFirebaseMessage');
+    Route::get('/getServerTimestamp', 'Api\TestController@getServerTimestamp');
 });
 

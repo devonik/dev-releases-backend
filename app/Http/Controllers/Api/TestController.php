@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Models\Tech;
+use Carbon\Carbon;
 use Kreait\Firebase\Exception\FirebaseException;
 use Kreait\Firebase\Exception\MessagingException;
 use Kreait\Firebase\Factory;
@@ -12,6 +13,10 @@ use Kreait\Firebase\Messaging\CloudMessage;
 
 class TestController
 {
+    public function getServerTimestamp(){
+        return Carbon::now();
+    }
+
     public function testFirebaseMessage(){
         $tech = Tech::all()->all();
         if($tech[0]){

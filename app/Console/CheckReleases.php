@@ -28,6 +28,8 @@ class CheckReleases
 
     public function __invoke()
     {
+        error_log("Cronjob call: Starting CheckReleases");
+
         $this->techRepository = new TechRepository();
 
         $checkableTechs = Tech::query()->whereDate('created_at', '<', Carbon::today())->get();
