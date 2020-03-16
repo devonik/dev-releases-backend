@@ -1,4 +1,4 @@
-FROM dragoono/laravel-craftable:1.4
+FROM dragoono/laravel-craftable:1.5
 
 WORKDIR /app
 COPY . /app
