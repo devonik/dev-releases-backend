@@ -83,7 +83,7 @@ class TechCrudController extends CrudController
     public function getLatestRelease($id){
         $tech = Tech::query()->where("id", $id)->first();
         if($tech){
-            $this->techRepository->updateTechWithGithubApiRequest($tech);
+            $this->techRepository->updateTechWithGithubApiRequest($tech)['tech'];
         }
 
 

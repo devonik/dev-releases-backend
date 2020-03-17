@@ -38,14 +38,14 @@ class CheckReleases
             $firebaseMessaging = (new Factory())->createMessaging();
             $firebaseMessages = array();
             foreach ($checkableTechs as $tech) {
-                $updateTechResponse = $this->techRepository->updateTechWithGithubApiRequest($tech);
+                $updatedTech = $this->techRepository->updateTechWithGithubApiRequest($tech)['tech'];
                 //updateTechResponse is false when there was an error or the tag is not new so we dont need a push notification
-                if ($updateTechResponse) {
+                if ($updatedTech->latest_tag !== null) {
                     //Only send push notification if the response is there (not false)
                     //Lets send firebase push notifications
                     $topic = 'new-tech-release';
                     $title = 'New github release';
-                    $body = $updateTechResponse->title . ' released to ' . $updateTechResponse->latest_tag;
+                    $body = $updatedTech->title . ' released to ' . $updatedTech->latest_tag;
 
                     $notification = Notification::fromArray([
                         'title' => $title,
@@ -53,7 +53,7 @@ class CheckReleases
                         'image' => $tech->hero_image,
                     ]);
 
-                    $notificationData = $updateTechResponse->toArray();
+                    $notificationData = $updatedTech->toArray();
                     //Needed so we can read the send message if the app is in background
                     $notificationData['click_action'] = 'FLUTTER_NOTIFICATION_CLICK';
                     //Needed because the notification itself is not attatched on background message
