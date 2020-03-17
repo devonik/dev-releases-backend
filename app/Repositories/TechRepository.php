@@ -98,7 +98,7 @@ class TechRepository
             if ($tags->ok()) {
                 if(count($tags->json()) === 0){
                     //The Call can be OK but the tags can be empty - lets grab this
-                    $response['error'] = 'There is no release for this repo';
+                    $response['error'] = 'There are no releases or tags for this repo';
                     $response['detailError'] = $tags->json();
                 }else{
                     $latestTag = isset($tags->json()[0]) ? $tags->json()[0] : null;
