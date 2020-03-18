@@ -28,7 +28,7 @@ class CheckReleases
 
     public function __invoke()
     {
-        error_log("Cronjob call: Starting CheckReleases");
+        Log:info("Cronjob call: Starting CheckReleases");
 
         $this->techRepository = new TechRepository();
 
@@ -74,7 +74,7 @@ class CheckReleases
                 //Only send notifications if there are new tags
                 try {
                     $firebaseMessaging->sendAll($firebaseMessages);
-                    print_r("[" . count($firebaseMessages) . "] firebase messages successfully sent !!!");
+                    Log::info("Cronjob call: [" . count($firebaseMessages) . "] firebase messages successfully sent !!!");
                 } catch (MessagingException $e) {
                     error_log($e);
                 } catch (FirebaseException $e) {
