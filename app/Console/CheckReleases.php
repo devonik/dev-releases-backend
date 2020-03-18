@@ -82,6 +82,10 @@ class CheckReleases
                 }
             }
         }
+
+        //https://cronhub.io/monitors/5446/help
+        file_get_contents("https://cronhub.io/ping/b3ea0ef0-686a-11ea-95d6-8b4c7dcbe0b9");
+
     }
 
 }
