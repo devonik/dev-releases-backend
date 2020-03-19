@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('tech')->name('tech/')->group(static function() {
     Route::get('/getAll', 'Api\TechController@getAll');
     Route::post('/add', 'Api\TechController@add');
+    Route::post('/addImageToTech', 'Api\TechController@addImageToTech');
 });
 
 Route::prefix('test')->name('test/')->group(static function() {

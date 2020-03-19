@@ -60,6 +60,7 @@ class Tech extends Model
     //Avatar Image upload
     public function setHeroImageAttribute($value)
     {
+        error_log("starting setHeroImageAttribute in model tech");
         $attribute_name = "hero_image";
         $disk = config('backpack.base.root_disk_name'); // or use your own disk, defined in config/filesystems.php
         $destination_path = "public/uploads/tech"; // path relative to the disk above
@@ -76,6 +77,7 @@ class Tech extends Model
         // if a base64 was sent, store it in the db
         if (starts_with($value, 'data:image'))
         {
+            error_log("The image is a base 64 string");
             // 0. Make the image
             $image = Image::make($value)->encode('png', 90);
             // 1. Generate a filename.

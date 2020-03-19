@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TechAppRequest;
 use App\Models\Tech;
 use App\Repositories\TechRepository;
+use Illuminate\Http\Request;
 
 class TechController extends Controller
 {
@@ -30,6 +31,7 @@ class TechController extends Controller
     public function getAll(){
         return Tech::all();
     }
+
     public function add(TechAppRequest $request){
         //If validation fails it occurs an error and send json response automatically
         $request->validated();
@@ -39,5 +41,21 @@ class TechController extends Controller
             $request->input('ownerName'),
             $request->input('repoName')
         );
+    }
+
+    public function addImageToTech(Request $request){
+        error_log("start addImageToTech");
+        $request->validate([
+            'techId' => ['required', 'integer'],
+            'image'  => ['required', 'string']
+        ]);
+        error_log("validation finish: ");
+        $tech = Tech::query()->where('id', $request->input('techId'))->first();
+        if($tech){
+            $tech->setHeroImageAttribute($request->input('image'));
+            $tech->save();
+        }
+
+        return $tech;
     }
 }
