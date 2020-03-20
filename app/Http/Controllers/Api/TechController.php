@@ -49,13 +49,12 @@ class TechController extends Controller
             'techId' => ['required', 'integer'],
             'image'  => ['required', 'string']
         ]);
-        error_log("validation finish: ");
         $tech = Tech::query()->where('id', $request->input('techId'))->first();
         if($tech){
             $tech->setHeroImageAttribute($request->input('image'));
             $tech->save();
         }
-
+        error_log("return tech: ".$tech);
         return $tech;
     }
 }
