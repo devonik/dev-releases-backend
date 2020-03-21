@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::prefix('tech')->name('tech/')->group(static function() {
     Route::get('/getAll', 'Api\TechController@getAll');
+    Route::get('/getByIds/{ids}', 'Api\TechController@getByIds');
     Route::post('/add', 'Api\TechController@add');
     Route::post('/addImageToTech', 'Api\TechController@addImageToTech');
 });

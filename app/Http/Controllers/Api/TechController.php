@@ -32,6 +32,11 @@ class TechController extends Controller
         return Tech::all();
     }
 
+    public function getByIds($ids){
+        error_log($ids);
+        return Tech::query()->whereIn('id', explode(',', $ids));
+    }
+
     public function add(TechAppRequest $request){
         //If validation fails it occurs an error and send json response automatically
         $request->validated();
