@@ -34,7 +34,7 @@ class TechController extends Controller
 
     public function getByIds($ids){
         error_log($ids);
-        return Tech::query()->whereIn('id', explode(',', $ids));
+        return Tech::query()->whereIn('id', explode(',', $ids))->get();
     }
 
     public function add(TechAppRequest $request){
