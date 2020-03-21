@@ -43,7 +43,7 @@ class CheckReleases
                 if ($updatedTech->latest_tag !== null) {
                     //Only send push notification if the response is there (not false)
                     //Lets send firebase push notifications
-                    $topic = 'new-tech-release';
+                    $topic = 'new-release-'.$updatedTech->id;
                     $title = 'New github release';
                     $body = $updatedTech->title . ' released to ' . $updatedTech->latest_tag;
 
