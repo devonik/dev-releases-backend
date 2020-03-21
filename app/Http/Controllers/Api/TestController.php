@@ -25,7 +25,8 @@ class TestController
             $tech = $tech[0];
             $tech->latest_tag = "dd";
             //Lets send firebase push notifications
-            $topic = 'new-tech-release';
+            $topic = 'new-release-'.$tech->id;
+            error_log("send message to: ".$topic);
             $title = 'New github release';
             $body = $tech->title.' released to '.$tech->latest_tag;
             $notification = ['title' => $title, 'body' => $body];
