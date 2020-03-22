@@ -16,12 +16,14 @@ class CreateTechsTable extends Migration
         Schema::create('techs', function (Blueprint $table) {
             $table->id();
             $table->bigInteger("github_release_id")->nullable();
-            $table->string("title")->unique();
+            $table->string("title");
             $table->string("hero_image")->nullable();
             $table->string("latest_tag")->nullable();
             $table->string("github_owner");
             $table->string("github_repo");
             $table->timestamps();
+
+            $table->unique(['title', 'github_owner']);
         });
     }
 
