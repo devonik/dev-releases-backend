@@ -41,7 +41,7 @@ class TestController
 
             try {
                 $firebaseMessaging->send($firebaseMessage);
-                print_r("firebase message successfully sent !!!");
+                return "firebase message successfully sent !!!";
             } catch (MessagingException $e) {
                 error_log($e);
             } catch (FirebaseException $e) {

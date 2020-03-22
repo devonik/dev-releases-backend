@@ -58,21 +58,28 @@ class TechRepository
     public function updateTechWithGithubApiRequest(Model $existingTech){
         $githubReponse = $this->getGithubLatestVersion($existingTech->github_owner, $existingTech->github_repo);
         $changedTech = $githubReponse['tech'];
-        if($changedTech->latest_tag !== null){
-            Log::info("updateTechWithGithubApiRequest: Try to update existing Tech with id [".$existingTech->id."]");
-            if($changedTech->latest_tag != $existingTech->latest_tag){
-                Log::info("updateTechWithGithubApiRequest:
-                We will update the Tag cause the tag from github [".$changedTech->latest_tag."] is != the tag in our database [".$existingTech->latest_tag."]");
+        if($githubReponse['error'] == null){
+            if($changedTech->latest_tag !== null){
+                Log::info("updateTechWithGithubApiRequest: Try to update existing Tech with id [".$existingTech->id."]");
+                if($changedTech->latest_tag != $existingTech->latest_tag){
+                    Log::info("updateTechWithGithubApiRequest:
+                    We will update the Tag cause the tag from github [".$changedTech->latest_tag."] is != the tag in our database [".$existingTech->latest_tag."]");
 
-                $existingTech->update($changedTech->toArray());
-                return $githubReponse;
-            }else{
-                //If the latest tag is not new and we dont need an update then we set tech to empty tech object.
-                //So we can check for null ($githubReponse['tech']->latest_tag != null)
-                $githubReponse['tech'] = new Tech();
+                    $existingTech->update($changedTech->toArray());
+                    return $githubReponse;
+                }else{
+                    //If the latest tag is not new and we dont need an update then we set tech to empty tech object.
+                    //So we can check for null ($githubReponse['tech']->latest_tag != null)
+                    $githubReponse['tech'] = new Tech();
+                }
+            }
+        }else {
+            Log::error("updateTechWithGithubApiRequest: There was an error");
+            Log::error("custom error message: ".$githubReponse['error']);
+            if($githubReponse['detailError'] != null){
+                Log::error("detail error message: ".json_encode($githubReponse['detailError']));
             }
         }
-        Log::info("updateTechWithGithubApiRequest: We wont update the tech cause there is no newer tag. We return: [".json_encode($githubReponse)."]");
         return $githubReponse;
 
     }
