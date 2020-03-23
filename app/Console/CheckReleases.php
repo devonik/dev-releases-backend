@@ -59,6 +59,7 @@ class CheckReleases
                     //Needed because the notification itself is not attatched on background message
                     $notificationData['message_identifier'] = $topic;
 
+                    Log::info("Cronjob call: Add firebase message with topic [".$topic."] to the messages");
                     array_push(
                         $firebaseMessages,
                         CloudMessage::withTarget('topic', $topic)

@@ -19,10 +19,10 @@ class TestController
 
     public function testFirebaseMessage(){
         $tech = Tech::all()->all();
-        if($tech[0]){
+        if($tech[1]){
 
             $firebaseMessaging = (new Factory())->createMessaging();
-            $tech = $tech[0];
+            $tech = $tech[1];
             $tech->latest_tag = "dd";
             //Lets send firebase push notifications
             $topic = 'new-release-'.$tech->id;
