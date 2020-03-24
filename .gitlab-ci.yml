@@ -1,0 +1,84 @@
+#
+# https://gitlab.com/gitlab-org/gitlab-foss/tree/master/lib/gitlab/ci/templates/PHP.gitlab-ci.yml
+#
+# No need to explicitly write this on your .gitlab-ci.yml file.
+# Add and edit if you want different stage configurations.
+stages:
+  - build
+  - deploy
+
+services:
+  # needed - otherwise we getting error like:
+  # error during connect: Post http://docker:2375/v1.40/auth: dial tcp: lookup docker on 169.254.169.254:53: no such host
+  - docker:19.03.5-dind
+
+cache:
+  # The variable CI_COMMIT_REF_SLUG
+  # refers to the slug of the branch.
+  # For example: `master` for the master branch.
+  # We use the `composer` suffix to avoid conflicts with
+  # the `npm` cache that we'll define next.
+  key: ${CI_COMMIT_REF_SLUG}-composer
+
+  # Define what to cache.
+  paths:
+    - vendor
+    - node_modules
+
+# The job's name.
+packaging:
+  # The job's stage (build, test or deploy).
+  stage: build
+  image: edbizarro/gitlab-ci-pipeline-php:7.3-alpine
+  # What to run on the job.
+  script:
+    - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
+    - npm install && npm run production
+  artifacts:
+    # (Optional) Give it an expiration date,
+    # after that period you won't be able to
+    # download them via the UI anymore.
+    expire_in: 7 days
+
+    # Define what to output from the job.
+    paths:
+      - vendor/
+      - node_modules/
+  only:
+    - master
+
+#docker stage (heroku) deploy
+#stage-deploy:
+#  image: docker:latest
+#  stage: deploy
+#  script:
+#    - docker login --username=${HEROKU_USERNAME} --password=${HEROKU_API_KEY} registry.heroku.com
+#    - docker build -t registry.heroku.com/${HEROKU_APP_STAGING}/web .
+#    - docker push registry.heroku.com/${HEROKU_APP_STAGING}/web
+#  only:
+#    - develop
+
+stage-deploy:
+  stage: deploy
+  script:
+    - gem install dpl
+    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
+  only:
+    - develop
+
+master-deploy:
+  image: docker:latest
+  stage: deploy
+  dependencies:
+    - packaging
+  script:
+    #Create a env file with the gitlab variables
+    # We dont need sudo with this image. Also it the command sudo isn't known in this image
+    - chmod +x ./setup_env.sh
+    - ./setup_env.sh
+    # using echo here for password cause https://stackoverflow.com/questions/51489359/docker-using-password-via-the-cli-is-insecure-use-password-stdin
+    - echo $CI_BUILD_TOKEN | docker login --username gitlab-ci-token --password-stdin registry.gitlab.com
+    - docker build -t registry.gitlab.com/devnik/dev-releases-backend/$CI_COMMIT_REF_NAME .;
+    - docker push registry.gitlab.com/devnik/dev-releases-backend/$CI_COMMIT_REF_NAME;
+  only:
+    - master
