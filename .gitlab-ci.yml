@@ -47,25 +47,6 @@ packaging:
   only:
     - master
 
-#docker stage (heroku) deploy
-#stage-deploy:
-#  image: docker:latest
-#  stage: deploy
-#  script:
-#    - docker login --username=${HEROKU_USERNAME} --password=${HEROKU_API_KEY} registry.heroku.com
-#    - docker build -t registry.heroku.com/${HEROKU_APP_STAGING}/web .
-#    - docker push registry.heroku.com/${HEROKU_APP_STAGING}/web
-#  only:
-#    - develop
-
-stage-deploy:
-  stage: deploy
-  script:
-    - gem install dpl
-    - dpl --provider=heroku --app=$HEROKU_APP_STAGING --api-key=$HEROKU_API_KEY
-  only:
-    - develop
-
 master-deploy:
   image: docker:latest
   stage: deploy
@@ -76,6 +57,7 @@ master-deploy:
     # We dont need sudo with this image. Also it the command sudo isn't known in this image
     - chmod +x ./setup_env.sh
     - ./setup_env.sh
+    - cat .env
     # using echo here for password cause https://stackoverflow.com/questions/51489359/docker-using-password-via-the-cli-is-insecure-use-password-stdin
     - echo $CI_BUILD_TOKEN | docker login --username gitlab-ci-token --password-stdin registry.gitlab.com
     - docker build -t registry.gitlab.com/devnik/dev-releases-backend/$CI_COMMIT_REF_NAME .;
