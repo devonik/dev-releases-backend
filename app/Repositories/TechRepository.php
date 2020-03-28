@@ -66,6 +66,10 @@ class TechRepository
                     We will update the Tag cause the tag from github [".$changedTech->latest_tag."] is != the tag in our database [".$existingTech->latest_tag."]");
 
                     $existingTech->update($changedTech->toArray());
+
+                    //Lets return the complete updatedTech
+                    //Because in $changedTech are only the change which are returned by getGithubLatestVersion and not the whole database date
+                    $githubReponse['tech'] = $existingTech;
                     return $githubReponse;
                 }else{
                     //If the latest tag is not new and we dont need an update then we set tech to empty tech object.
